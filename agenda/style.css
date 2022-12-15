@@ -1,0 +1,366 @@
+@charset "utf-8";
+
+:root {
+  color-scheme: light dark;
+  --soft-black: #333;
+  --soft-white: #fefefe;
+  --borderColor: transparent;
+  --links: #0078A8;
+}
+*, *::before, *::after {box-sizing:border-box}
+
+html {
+font-size: 100%;
+}
+  body {
+  margin: 0; padding: 0;
+  height: 100vh; overflow: hidden;
+  background: #d7eeff linear-gradient(45deg, #8ec5fc, #e0c3fc) fixed;
+  font-family: "Public Sans", "fira_sans", BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  color: var(--soft-black);
+  }
+    body::before {
+    content: "";
+    display: block; position: absolute;
+    height: 100%; min-height: 100vh;
+    left: 0; right: 0;
+    background: #d7eeff linear-gradient(45deg, #232526, #414345) fixed;
+    opacity: 0; transition: opacity 1s ease; will-change: opacity;
+    z-index: -1
+    }
+    #caltainer {
+    position: relative;
+    height: 100vh; height: calc(var(--vh, 1vh) * 100);
+    overflow-x: hidden; overflow-y: auto
+    }
+      .cal-nav {
+      display: flex;
+      width: 100%;
+      padding: .2rem 0;
+      font-size: 1.1rem
+      user-select: none;
+      }
+        .cal-nav > div {
+        display: inline-block;
+        }
+        #go-prev, #go-next {
+        flex: 1 1 auto;
+        cursor: pointer;
+        border: 0;
+        background: transparent;
+        color: var(--soft-black);
+        text-decoration: none
+        }
+        #go-prev:focus, #go-next:focus {
+        outline: 1px dashed #fff;
+        }
+        #go-prev.hide, #go-next.hide {
+        visibility: hidden;
+        pointer-events: none;
+        }
+        #go-prev {
+        text-align: right
+        }
+        #month-year {
+        margin: 0 2rem;
+        font-weight: 600
+        }
+          #month-year:first-letter {
+          text-transform: uppercase;
+          }
+        #go-next {
+        text-align: left;
+        }
+      .days-names {
+      display: flex;
+      user-select: none;
+      font-size: 1.1rem;
+      border-top: 1px solid var(--borderColor);
+      margin-bottom: .1rem
+      }
+        .days-names > div {
+        display: inline-block;
+        width: 14.285714286%;
+        text-align: center;
+        border-bottom: 1px solid var(--borderColor);
+        border-right: 1px solid var(--borderColor);
+        }
+        .days-names > div:first-letter {
+        text-transform: uppercase
+        }
+      #noscript {
+      margin-top: 2em;
+      font-size: 2em;
+      color: #700;
+      width: 100%;
+      text-align:center
+      }
+      #cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-template-rows: repeat(auto-fill, 1fr) ;
+      min-height: 100vh;
+      height:100%;
+      min-width: 0
+      }
+        #cal-grid > div {
+        display: inline-block;
+        position:relative;
+        height: 100%;
+        max-width: 14.285714286vw;
+        border-bottom: 1px solid var(--borderColor);
+        border-right: 1px solid var(--borderColor);
+        }
+        #cal-grid > div:empty {
+        min-height:14.2857142857vw
+        }
+        #cal-grid > div:nth-child(7n), .days-names div:nth-last-child(1)  {
+        border-right: 0;
+        }
+        #cal-grid > div:nth-last-child(-n+7) {
+        border-bottom: 0;
+        }
+          #cal-grid > div::before {
+          display: flex;
+          flex-direction: column; justify-content: center;  align-content: center;
+          width: 1.5rem; height: 1.5rem;
+          margin: .2rem;
+          font-size: 1rem; text-align:center
+          }
+          .cal-prev, .cal-next, .cal-curr  {
+          box-shadow: 0 1px 0 white inset, inset 0 1px 0 rgba(255,255,255,0.7);
+          border: 1px solid rgba(0,0,0,0.1);
+          background-color: rgba(255,255,255,0.5);
+          }
+          .cal-prev, .cal-next {
+          opacity: .5 ;
+          }
+            .cal-prev::before {
+            content: counter(prev-days, decimal);
+            counter-increment: prev-days 1;
+            }
+            .cal-curr::before {
+            content: counter(curr-days, decimal);
+            counter-increment: curr-days;
+            }
+            .cal-next::before {
+            content: counter(next-days, decimal);
+            counter-increment: next-days;
+            }
+            .cal-today::before {
+            background: var(--soft-black);
+            color: var(--soft-white) !important;
+            border-radius: 50%;
+            }
+          .cal-event {
+          display: block;
+          position: relative;
+          margin: 0 2px 3px 2px; padding: 4px;
+          color: #fefefe; background: #8EC5FC;
+          font-size: 1rem; hyphens: auto; word-break: break-word; text-decoration: none;
+          border-radius:5px;
+          box-shadow: 0px 0px 0px #333;
+          cursor: pointer;
+          transition: transform .4s ease, box-shadow .4s ease;
+          }
+          .cal-event:focus {
+          outline: 2px dashed #fff;
+          }
+          .pos-s {
+          /*border-radius: 5px 0 0 5px;*/
+          border-radius: 5px;
+          /*margin-right: -1px;
+          padding-right: 2px;*/
+          }
+          .pos-m {
+          z-index:444;
+          /*border-radius: 0;*/
+          border-radius: 5px;
+          /*margin-right: -1px; padding-right: 2px;
+          margin-left: -1px; padding-left: 2px;*/
+          }
+          .pos-m:not(.long) .evt-title, .pos-e .evt-title, .pos-m:not(.long) b, .pos-e b {
+          /*visibility:hidden*/
+          }
+          .pos-m:not(.long), .pos-e:not(.long) {
+          z-index:1
+          }
+          .pos-e {
+          /*border-radius: 0 5px 5px 0;*/
+          border-radius: 5px;
+          /*margin-left:-1px;
+          padding-left:2px;
+          overflow:hidden;*/
+          }
+          .evt-national {
+          background: #76BF9E;
+          color: #fefefe ;
+          }
+          .evt-fest {
+          background: #E0938C;
+          color: #333 ;
+          }
+          .evt-politic {
+          background: #ff5583;
+          }
+          .evt-conference {
+          background: #03bd9e;
+          }
+      .moon {
+      position: absolute;
+      top: .3rem; right: .2rem;
+      cursor: pointer;
+      user-select: none;
+      }
+      .moon.full:hover::before {
+          content: "Pleine Lune "
+      }
+      .moon.new:hover::before {
+      content: "Nouvelle Lune "
+      }
+      .zod {
+      position: absolute;
+      bottom: .2rem; right: .2rem;
+      font-size: 1.3rem;
+      cursor: pointer;
+      user-select: none;
+      }
+      .zod:hover > span {
+      display: inline-block;
+      }
+      .zod > span {
+      display: none;
+      font-size: 1rem;
+      }
+        .zod > span:first-letter {
+        text-transform: uppercase;
+        }
+      /*.long .evt-title {
+      position: relative;
+      z-index: 2
+      }*/
+      #cal-details {
+      position: fixed;
+      bottom: -100%;
+      width: 100%;
+      background: var(--soft-white);
+      color: var(--soft-black);
+      transition: bottom .5s ease;
+      border-top: 1px solid var(--soft-black);
+      padding: .9rem 0 .5rem 1rem;
+      z-index: 999;
+      height: calc(100% - 15px);
+      border-radius: 5px 5px 0 0
+      }
+        #cal-details a {
+        color: var(--links)
+        }
+        .scrollable {
+        overflow:auto;
+        height: 100%
+        }
+          .scrollable > div {
+          margin-bottom: 1rem;
+          }
+          #details-title {
+          font-size: 1.5rem;
+          font-variant: small-caps
+          }
+
+          #details-exit {
+          display: flex;
+          justify-content: center; align-content: center; flex-direction: column;
+          position: absolute;
+          top: -15px; left: calc(50% - 15px);
+          width: 30px; height: 30px;
+          margin-left: 5px;
+          padding-top: .15rem;
+          text-align: center;
+          text-decoration: none;
+          background: var(--soft-white);
+          border: 1px solid var(--soft-black); border-radius: 50px;
+          cursor: pointer;
+          }
+          #details-exit::before {
+          color: var(--soft-black);
+          }
+          #details-exit:hover {
+          color: var(--soft-white);
+          background: var(--soft-black);
+          }
+          #details-exit:hover::before {
+          color: var(--soft-white);
+          }
+          #cal-details div:not(#details-exit)::before {
+          width: 1.2rem
+          }
+
+@media screen and (max-width:740px) {
+  .days-names > div span span {display:none}
+}
+@media screen and (max-width:300px) {
+  .days-names > div span {display:none}
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --soft-black: #fefefe;
+    --soft-white: #333;
+    --borderColor: #fefefe;
+    --links: #8cdeff
+  }
+  body::before {opacity:1 !important}
+  #cal-grid {
+    margin-top: -2px
+  }
+  #cal-grid > div  {
+    box-shadow: none;
+    border-top:0
+  }
+  .days-names {border:0}
+  .cal-curr { background: transparent}
+  .cal-prev, .cal-next   { background: rgba(255,255,255,.3)}
+  .moon {filter: drop-shadow(0 0 3px #fff);}
+  .moon.full {filter: drop-shadow(0 0 3px #fff);}
+
+}
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('../fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'),
+       url('../fonts/fontawesome-webfont.woff?v=4.7.0') format('woff');
+}
+.fa::before {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.fa-link:not(:empty)::before { content: "\f0c1" }
+.fa-quote:not(:empty)::before { content: "\f10d";font-size:2rem; padding-right:2.1rem; float:left; }
+.fa-cross::before {content: "\f067"; transform: rotate(45deg) }
+.fa-clock:not(:empty)::before {content: "\f017" }
+.fa-map-marker:not(:empty)::before {content: "\f041"}
+
+/*
+.long-1 .evt-title { width: calc(14.2857142857vw - 15px)}
+.long-2 .evt-title { width: calc(28.5714285714vw - 15px)}
+.long-3 .evt-title { width: calc(42.8571428571vw - 15px)}
+.long-4 .evt-title { width: calc(57.1428571429vw - 15px)}
+.long-5 .evt-title { width: calc(71.4285714286vw - 15px)}
+.long-6 .evt-title { width: calc(85.7142857143vw - 15px)}
+.long-7 .evt-title { width: calc(100vw  - 6px)}*/
+/*
+@media screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
+  #caltainer {
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    width: 100vh;
+    height:100vw;
+    overflow-x: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+}*/
