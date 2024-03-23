@@ -1,0 +1,17 @@
+@charset "UTF-8";
+.P1 {background:#00a3db}	.P1E {background:#83d0f5}  .P2A {background:#f00}		.P2B {background:#d71f26}
+.P3 {background:#fff000}	.P10 {background:#92cfc5}  .P11 {background:#90277d}	.P12 {background:#a780ad}
+.P13 {background:#e57fa9}	.P14 {background:#de3fa2}  .P15 {background:#9ec83f}	.P16 {background:#347c86}
+.P17 {background:#c1934f}	.P20 {background:#82be40}  .P21 {background:#e78229}	.P22 {background:#837438}
+.P23 {background:#e26626}	.P24 {background:#e05a75}  .P25 {background:#eea829}	.P27 {background:#a1bcc6}
+.P28 {background:#9d6331}	.P29 {background:#69b642}  .P30 {background:#c71066}	.P31 {background:#07ad98}
+.P32 {background:#347ab3}	.P33 {background:#a4502b}  .P34 {background:#573d90}	.P35 {background:#719b68}
+.PO {background:#e94282}	.PTER {background:#0000b0} .PCITA {background:#64c800}
+.P3, .PD, .C2, .C3, .P10, .P13, .P27, .P15, .P1E {color:#000 !important}
+.PTER, .PCITA { width: auto !important;padding: 0 .3rem;}
+.C1, .C2, .C3, .C4, .C5, .C6, .C7, .C10, .C11, .C12, .C13, .C14, .C15, .C16 {border-radius:0 !important}
+.C1 {background:#de192c}	.C2 {background:#ff7900}	.C3 {background:#ffb500}
+.C4 {background:#c90}		.C5 {background:#0080c2}	.C6 {background:#00c4f3}
+.C7 {background:#4a55ba}	.C10 {background:#34b49d}	.C11 {background:#00a456}
+.C12 {background:#95c44b}	.C13 {background:#007139}	.C14 {background:#a69e42} 
+.C15 {background:#1b7b6a}	.C16 {background:#46b052}
